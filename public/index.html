@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Huambo Plus - Plataforma de serviços, clientes, prestadores e empresas."
+    >
+
+    <meta name="theme-color" content="#2563eb">
+
+    <title>Huambo Plus</title>
+
+    <!-- =========================================================
+         SUPABASE
+         ========================================================= -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        defer>
+    </script>
+
+    <!-- =========================================================
+         CSS PRINCIPAL
+         ========================================================= -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- =========================================================
+         FAVICON
+         ========================================================= -->
+    <link
+        rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%2B%3C/text%3E%3C/svg%3E"
+    >
+</head>
+
+<body>
+
+<!-- ============================================================
+     APP
+     ============================================================ -->
+
+<div id="app">
+
+    <!-- ========================================================
+         TELA DE CARREGAMENTO
+         ======================================================== -->
+
+    <section id="loadingScreen" class="screen loading-screen">
+
+        <div class="loading-container">
+
+            <div class="app-logo">
+                +
+            </div>
+
+            <h1>Huambo Plus</h1>
+
+            <p>Carregando a plataforma...</p>
+
+            <div class="loading-spinner"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         AUTENTICAÇÃO
+         ======================================================== -->
+
+    <section
+        id="authSection"
+        class="screen auth-screen hidden"
+    >
+
+        <div class="auth-container">
+
+            <!-- LOGO -->
+
+            <div class="brand">
+
+                <div class="brand-logo">
+                    +
+                </div>
+
+                <div>
+                    <h1>Huambo Plus</h1>
+                    <p>Serviços perto de si</p>
+                </div>
+
+            </div>
+
+
+            <!-- CARD DE AUTENTICAÇÃO -->
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+
+                    <h2>Bem-vindo</h2>
+
+                    <p>
+                        Entre na sua conta ou crie uma nova conta.
+                    </p>
+
+                </div>
+
+
+                <!-- TIPO DE UTILIZADOR -->
+
+                <div class="form-group">
+
+                    <label for="userRole">
+                        Tipo de utilizador
+                    </label>
+
+                    <select id="userRole">
+
+                        <option value="client">
+                            Cliente
+                        </option>
+
+                        <option value="provider">
+                            Prestador de Serviços
+                        </option>
+
+                        <option value="company">
+                            Empresa
+                        </option>
+
+                        <option value="admin">
+                            Administrador
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- NOME -->
+
+                <div
+                    id="nameGroup"
+                    class="form-group hidden"
+                >
+
+                    <label for="fullName">
+                        Nome completo
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fullName"
+                        placeholder="Digite o seu nome"
+                        autocomplete="name"
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+                        E-mail
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="exemplo@email.com"
+                        autocomplete="email"
+                        inputmode="email"
+                    >
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Palavra-passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Mínimo de 6 caracteres"
+                        autocomplete="current-password"
+                    >
+
+                </div>
+
+
+                <!-- CONFIRMAÇÃO DE PASSWORD -->
+
+                <div
+                    id="confirmPasswordGroup"
+                    class="form-group hidden"
+                >
+
+                    <label for="confirmPassword">
+                        Confirmar palavra-passe
+                    </label>
+
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Digite novamente"
+                        autocomplete="new-password"
+                    >
+
+                </div>
+
+
+                <!-- =================================================
+                     CAMPOS DO PRESTADOR
+                     ================================================= -->
+
+                <div
+                    id="providerFields"
+                    class="role-fields hidden"
+                >
+
+                    <div class="role-fields-header">
+
+                        <h3>
+                            Verificação do prestador
+                        </h3>
+
+                        <p>
+                            Para proteger clientes e prestadores,
+                            precisamos verificar a sua identidade.
+                        </p>
+
+                    </div>
+
+
+                    <!-- SELFIE -->
+
+                    <div class="form-group">
+
+                        <label for="selfieFile">
+                            Fotografia / Selfie
+                        </label>
+
+                        <input
+                            type="file"
+                            id="selfieFile"
+                            accept="image/jpeg,image/png,image/webp"
+                        >
+
+                        <small>
+                            Envie uma fotografia nítida do seu rosto.
+                        </small>
+
+                    </div>
+
+
+                    <!-- BI -->
+
+                    <div class="form-group">
+
+                        <label for="biFile">
+                            Bilhete de Identidade
+                        </label>
+
+                        <input
+                            type="file"
+                            id="biFile"
+                            accept="image/jpeg,image/png,image/webp,application/pdf"
+                        >
+
+                        <small>
+                            O documento será utilizado apenas para
+                            verificação da identidade.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     CAMPOS DA EMPRESA
+                     ================================================= -->
+
+                <div
+                    id="companyFields"
+                    class="role-fields hidden"
+                >
+
+                    <div class="role-fields-header">
+
+                        <h3>
+                            Dados da empresa
+                        </h3>
+
+                        <p>
+                            Informações utilizadas para identificar
+                            a empresa na plataforma.
+                        </p>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="companyName">
+                            Nome da empresa
+                        </label>
+
+                        <input
+                            type="text"
+                            id="companyName"
+                            placeholder="Nome comercial da empresa"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="companyDocument">
+                            Documento da empresa
+                        </label>
+
+                        <input
+                            type="file"
+                            id="companyDocument"
+                            accept="image/jpeg,image/png,image/webp,application/pdf"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     MENSAGEM DE AUTENTICAÇÃO
+                     ================================================= -->
+
+                <div
+                    id="authMessage"
+                    class="message hidden"
+                    role="alert"
+                >
+                </div>
+
+
+                <!-- =================================================
+                     BOTÕES
+                     ================================================= -->
+
+                <button
+                    id="loginBtn"
+                    type="button"
+                    class="btn btn-primary"
+                >
+                    Entrar na conta
+                </button>
+
+
+                <button
+                    id="signupBtn"
+                    type="button"
+                    class="btn btn-success"
+                >
+                    Criar nova conta
+                </button>
+
+
+                <button
+                    id="forgotPasswordBtn"
+                    type="button"
+                    class="btn btn-link"
+                >
+                    Esqueci a minha palavra-passe
+                </button>
+
+
+                <!-- =================================================
+                     AVISO DE SEGURANÇA
+                     ================================================= -->
+
+                <div class="security-notice">
+
+                    <strong>
+                        🔒 Segurança
+                    </strong>
+
+                    <p>
+                        As suas informações são protegidas pela
+                        infraestrutura de autenticação e segurança
+                        do Supabase.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <footer class="auth-footer">
+
+                <p>
+                    © <span id="currentYear"></span>
+                    Huambo Plus
+                </p>
+
+                <p>
+                    Plataforma de serviços
+                </p>
+
+            </footer>
+
+        </div>
+
+    </section>
+
+
+    <!-- ========================================================
+         PAINEL DO CLIENTE
+         ======================================================== -->
+
+    <section
+        id="clientPanel"
+        class="app-screen hidden"
+    >
+
+        <!-- HEADER -->
+
+        <header class="app-header">
+
+            <div class="header-brand">
+
+                <div class="small-logo">
+                    +
+                </div>
+
+                <span>
+                    Huambo Plus
+                </span>
+
+            </div>
+
+            <button
+                id="logoutClient"
+                type="button"
+                class="header-button"
+            >
+                Sair
+            </button>
+
+        </header>
+
+
+        <!-- CONTEÚDO -->
+
+        <main class="dashboard">
+
+            <section class="welcome-card">
+
+                <div>
+
+                    <span class="eyebrow">
+                        Área do cliente
+                    </span>
+
+                    <h2>
+                        Bem-vindo ao Huambo Plus
+                    </h2>
+
+                    <p id="clientWelcomeText">
+                        Encontre serviços e profissionais
+                        de confiança.
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- SERVIÇOS -->
+
+            <section class="dashboard-section">
+
+                <div class="section-header">
+
+                    <h3>
+                        Encontrar serviços
+                    </h3>
+
+                    <button
+                        id="viewServicesBtn"
+                        type="button"
+                        class="text-button"
+                    >
+                        Ver todos
+                    </button>
+
+                </div>
+
+
+                <div
+                    id="servicesContainer"
+                    class="services-grid"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            🔎
+                        </div>
+
+                        <h4>
+                            Serviços
+                        </h4>
+
+                        <p>
+                            Em breve poderá encontrar prestadores
+                            e empresas disponíveis.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- PEDIDOS -->
+
+            <section class="dashboard-section">
+
+                <div class="section-header">
+
+                    <h3>
+                        Os meus pedidos
+                    </h3>
+
+                </div>
+
+                <div
+                    id="clientOrdersContainer"
+                    class="orders-container"
+                >
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            📦
+                        </div>
+
+                        <h4>
+                            Nenhum pedido
+                        </h4>
+
+                        <p>
+                            Os seus pedidos aparecerão aqui.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- CONVERSAS -->
+
+            <section class="dashboard-section">
+
+                <div class="section-header">
+
+                    <h3>
+                        Conversas
+                      </h3>
